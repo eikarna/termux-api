@@ -1,0 +1,15 @@
+#!/data/data/com.termux/files/usr/bin/sh
+set -e -u
+
+SCRIPTNAME=termux-bluetooth-connect
+show_usage () {
+    echo "Usage: $SCRIPTNAME <mac_address>"
+    echo "Connect to a bluetooth device."
+    exit 0
+}
+
+if [ $# != 1 ]; then
+    show_usage
+fi
+
+/data/data/com.termux/files/usr/libexec/termux-api BluetoothConnect --es mac_address "$1"

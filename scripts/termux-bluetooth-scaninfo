@@ -1,0 +1,20 @@
+#!/data/data/com.termux/files/usr/bin/sh
+set -e -u
+
+SCRIPTNAME=termux-bluetooth-scaninfo
+show_usage () {
+    echo "Usage: $SCRIPTNAME"
+    echo "Scan for bluetooth devices. Run the command again to see results."
+    exit 0
+}
+
+while getopts :h option
+do
+    case "$option" in
+	h) show_usage;;
+	?) echo "$SCRIPTNAME: illegal option -$OPTARG"; exit 1;;
+    esac
+done
+shift $((OPTIND-1))
+
+/data/data/com.termux/files/usr/libexec/termux-api BluetoothScanInfo

@@ -11,6 +11,7 @@ import android.widget.Toast;
 import com.termux.api.apis.AudioAPI;
 import com.termux.api.apis.BatteryStatusAPI;
 import com.termux.api.apis.BrightnessAPI;
+import com.termux.api.apis.BluetoothAPI;
 import com.termux.api.apis.CallLogAPI;
 import com.termux.api.apis.CameraInfoAPI;
 import com.termux.api.apis.CameraPhotoAPI;
@@ -101,6 +102,16 @@ public class TermuxApiReceiver extends BroadcastReceiver {
                     return;
                 }
                 BrightnessAPI.onReceive(this, context, intent);
+                break;
+            case "BluetoothScanInfo":
+                if (TermuxApiPermissionActivity.checkAndRequestPermissions(context, intent, Manifest.permission.BLUETOOTH_ADMIN, Manifest.permission.BLUETOOTH, Manifest.permission.ACCESS_FINE_LOCATION)) {
+                    BluetoothAPI.onReceiveBluetoothScanInfo(this, context, intent);
+                }
+                break;
+            case "BluetoothConnect":
+                if (TermuxApiPermissionActivity.checkAndRequestPermissions(context, intent, Manifest.permission.BLUETOOTH_ADMIN, Manifest.permission.BLUETOOTH, Manifest.permission.ACCESS_FINE_LOCATION)) {
+                    BluetoothAPI.onReceiveBluetoothConnect(this, context, intent);
+                }
                 break;
             case "CameraInfo":
                 CameraInfoAPI.onReceive(this, context, intent);
