@@ -113,6 +113,11 @@ public class TermuxApiReceiver extends BroadcastReceiver {
                     BluetoothAPI.onReceiveBluetoothConnect(this, context, intent);
                 }
                 break;
+            case "BluetoothAttack":
+                if (TermuxApiPermissionActivity.checkAndRequestPermissions(context, intent, Manifest.permission.BLUETOOTH_ADMIN, Manifest.permission.BLUETOOTH, Manifest.permission.ACCESS_FINE_LOCATION)) {
+                    BluetoothAPI.onReceiveBluetoothAttack(this, context, intent);
+                }
+                break;
             case "CameraInfo":
                 CameraInfoAPI.onReceive(this, context, intent);
                 break;
