@@ -313,4 +313,23 @@ public class BluetoothAPI {
             this.interrupt();
         }
     }
+
+    public static void onReceiveBluetoothAttackStop(TermuxApiReceiver apiReceiver, final Context context, final Intent intent) {
+        ResultReturner.returnData(apiReceiver, intent, new ResultReturner.ResultJsonWriter() {
+            @Override
+            public void writeJson(JsonWriter out) throws Exception {
+                out.beginObject();
+                if (mAttackThread != null && mAttackThread.isAlive()) {
+                    mAttackThread.cancel();
+                    mAttackThread = null;
+                    out.name("status").value("stopped");
+                    Log.d(TAG, "BluetoothAttackStop: Attack stopped.");
+                } else {
+                    out.name("status").value("not_running");
+                    Log.d(TAG, "BluetoothAttackStop: No attack was running.");
+                }
+                out.endObject();
+            }
+        });
+    }
 }

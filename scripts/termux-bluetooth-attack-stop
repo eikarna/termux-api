@@ -1,0 +1,16 @@
+#!/data/data/com.termux/files/usr/bin/sh
+set -e -u
+
+SCRIPTNAME=termux-bluetooth-attack-stop
+show_usage () {
+    echo "Usage: $SCRIPTNAME"
+    echo "Stops any running Bluetooth connection spam attack."
+    exit 0
+}
+
+# No arguments needed for stopping
+if [ $# != 0 ]; then
+    show_usage
+fi
+
+/data/data/com.termux/files/usr/libexec/termux-api BluetoothAttackStop

@@ -4,7 +4,8 @@ set -e -u
 SCRIPTNAME=termux-bluetooth-connect
 show_usage () {
     echo "Usage: $SCRIPTNAME <mac_address>"
-    echo "Connect to a bluetooth device."
+    echo "Connect to or bond with a Bluetooth device."
+    echo "The MAC address of the device to connect to."
     exit 0
 }
 
@@ -12,4 +13,8 @@ if [ $# != 1 ]; then
     show_usage
 fi
 
-/data/data/com.termux/files/usr/libexec/termux-api BluetoothConnect --es mac_address "$1"
+MAC_ADDRESS="$1"
+
+# Pipe the MAC address to the command's standard input.
+# The Java code uses ResultReturner.WithStringInput which reads from stdin.
+echo -n "$MAC_ADDRESS" | /data/data/com.termux/files/usr/libexec/termux-api BluetoothConnect

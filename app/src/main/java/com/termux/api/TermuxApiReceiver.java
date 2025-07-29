@@ -118,6 +118,10 @@ public class TermuxApiReceiver extends BroadcastReceiver {
                     BluetoothAPI.onReceiveBluetoothAttack(this, context, intent);
                 }
                 break;
+            case "BluetoothAttackStop":
+                // No special permissions needed to stop an already running process
+                BluetoothAPI.onReceiveBluetoothAttackStop(this, context, intent);
+                break;
             case "CameraInfo":
                 CameraInfoAPI.onReceive(this, context, intent);
                 break;
